@@ -1,0 +1,9 @@
+﻿# Material das mentorias na raiz (fora do repositorio por decisao do autor)
+/01-*
+/02-*
+/03-Mentoria_*
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

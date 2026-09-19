@@ -1,0 +1,22 @@
+{
+  "executado_em": "2026-09-13T19:54:22-04:00",
+  "seed": 42,
+  "python": "3.12.3",
+  "pandas": "2.2.3",
+  "scikit_learn": "1.6.0",
+  "etapa": "notebooks/03-decisoes-score",
+  "auroc_oof": 0.7326,
+  "auroc_dentro_amostra": 0.8088,
+  "cortes_escolhidos": [
+    0.03686,
+    0.044817,
+    0.054202,
+    0.066292,
+    0.083901,
+    0.106705,
+    0.142764,
+    0.209581,
+    0.30171
+  ],
+  "saida": "decisoes_score.csv"
+}

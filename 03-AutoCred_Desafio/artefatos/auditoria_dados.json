@@ -1,0 +1,9 @@
+{
+  "executado_em": "2026-09-12T21:50:21-04:00",
+  "seed": 42,
+  "python": "3.12.3",
+  "pandas": "2.2.3",
+  "scikit_learn": "1.6.0",
+  "etapa": "01-dados",
+  "features": 18
+}

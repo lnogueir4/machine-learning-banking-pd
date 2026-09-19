@@ -1,0 +1,13 @@
+{
+  "executado_em": "2026-09-13T12:10:14-04:00",
+  "seed": 42,
+  "python": "3.12.3",
+  "pandas": "2.2.3",
+  "scikit_learn": "1.6.0",
+  "etapa": "notebooks/02-decisoes-features",
+  "n_features": 17,
+  "derivadas_testadas": 7,
+  "derivadas_aprovadas": 0,
+  "taxa_referencia": 0.01587,
+  "saida": "decisoes_features.csv"
+}

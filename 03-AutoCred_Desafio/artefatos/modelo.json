@@ -1,0 +1,38 @@
+{
+  "executado_em": "2026-09-13T12:10:31-04:00",
+  "seed": 42,
+  "python": "3.12.3",
+  "pandas": "2.2.3",
+  "scikit_learn": "1.6.0",
+  "etapa": "src/modelo",
+  "janela_treino": "< 2024",
+  "n_treino": 6670,
+  "n_oot": 3330,
+  "vencedor": "HistGB regularizado",
+  "hiperparametros": {
+    "modelo__learning_rate": 0.03,
+    "modelo__max_leaf_nodes": 4,
+    "modelo__min_samples_leaf": 50,
+    "modelo__l2_regularization": 1.0,
+    "modelo__max_iter": 400
+  },
+  "hiperparametros_baselines": {
+    "Regressão logística": {
+      "C": 0.01
+    },
+    "Árvore de decisão": {
+      "criterion": "entropy",
+      "max_depth": 6,
+      "min_samples_leaf": 200
+    },
+    "Random Forest": {
+      "max_depth": 12,
+      "max_features": 0.5,
+      "min_samples_leaf": 20
+    }
+  },
+  "auc_oot": 0.741,
+  "calibracao": "sigmoid (Platt) cv=5",
+  "modelo": "modelo_pd.joblib",
+  "saida": "modelo_comparacao.csv"
+}
