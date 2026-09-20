@@ -76,7 +76,7 @@ def validar_features(features=None) -> list[str]:
 
 A alternativa — a lista literal no código — funciona até o material ser atualizado e ninguém lembrar de editá-la. A falha seria silenciosa: o modelo treinaria normalmente. Um modelo que não treina é melhor que um modelo que treina com vazamento.
 
-O tamanho da tentação, medido: `qtd_parcelas_em_atraso_12m` sozinha, como variável única, dá AuROC de **0,9644** na Base A. Ela parece informação de bureau, está presente nas três bases, e é a armadilha mais cara do desafio — qualquer modelo que a use vence qualquer modelo honesto, e não vale nada.
+O tamanho da tentação, medido: `qtd_parcelas_em_atraso_12m` sozinha, como variável única, dá AuROC de **0,9644** na Base A. Ela parece informação de bureau, está presente nas três bases — mas em B e C vem **constante zero**: máximo 0, 1 valor distinto nas 3.000 linhas de B e nas 5.000 de C, que é o valor de uma proposta que ainda não pagou nada. Um modelo que a usasse aprenderia a depender dela na Base A e receberia zeros na submissão. É a armadilha mais cara do desafio — qualquer modelo que a use vence qualquer modelo honesto, e não vale nada.
 
 ### As nove colunas que a Base C não tem
 

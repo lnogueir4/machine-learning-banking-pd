@@ -5,6 +5,21 @@ a decisão, a pendência. Detalhe técnico duradouro vai para o `CLAUDE.md`.
 
 ---
 
+## 2026-09-20 (tarde) — `qtd_parcelas_em_atraso_12m`: o argumento do zero entrou nos dois textos
+
+- O relatório do modelo e o `docs/01-dados.md` diziam só que a coluna "está presente nas três
+  bases". Faltava o fato que decide: em B e C ela é **constante zero** — um modelo treinado com
+  ela na Base A receberia zeros na submissão e ficaria cego.
+- Números contados das bases em `proibida_zerada()` (`src/relatorio_modelo.py`), nunca digitados;
+  o capítulo ganhou o snippet que reproduz `3000 1 0` / `5000 1 0`. **Não** citei o AuROC 0,5888
+  do `aprendizado.md`: nenhum script do repo o reproduz. 21/21 conferências ok.
+- Submissões e documento de política intactos byte a byte.
+- **Pendente:** o commit `af6a975` levou junto `reports/~$cumento_politica.docx`, arquivo de
+  bloqueio do Word (`git add -A` pega untracked, e `git diff --stat` não o mostra). Já apagado
+  do disco; falta a regra `~$*` no `.gitignore` e commitar a remoção.
+
+---
+
 ## 2026-09-20 (meio-dia) — README da raiz criado; `docs/README.md` auditado
 
 - **Novo:** `README.md` na raiz — porta de entrada do repositório (problema, entregáveis,

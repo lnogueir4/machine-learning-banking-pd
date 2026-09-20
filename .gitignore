@@ -2,6 +2,10 @@
 /01-*
 /02-*
 /03-Mentoria_*
+/04-grupo-*
+
+# Arquivos de bloqueio do Word (abrir o .docx cria um destes)
+~$*
 
 # Python
 __pycache__/

@@ -210,9 +210,24 @@ validar_features(FEATURES + ["qtd_parcelas_em_atraso_12m"])   # deve erguer Vaza
 ---
 
 **Por que `qtd_parcelas_em_atraso_12m` é a armadilha mais perigosa da base** — ela parece informação
-de bureau, está presente nas três bases e sozinha dá AuROC de 0,96 — está registrado em
+de bureau, está presente nas três bases e sozinha dá AuROC de 0,96. E há um segundo motivo, mais
+concreto que o argumento de pós-concessão: em B e C a coluna vem **constante zero** (máximo 0, um
+único valor distinto nas 3.000 linhas de B e nas 5.000 de C), que é o valor de uma proposta que
+ainda não pagou nada. Um modelo que a usasse aprenderia a depender dela na Base A e receberia
+zeros na submissão. O argumento completo está registrado em
 [`aprendizado.md`](../../aprendizado.md), na entrada *"A variável mais preditiva da base é a que
 está proibida"*.
+
+Confira o zero você mesmo — é uma linha, e o relatório do modelo recalcula o mesmo número a cada
+execução:
+
+```python
+from dados import carregar_base_b, carregar_base_c
+for b in (carregar_base_b(), carregar_base_c()):
+    print(len(b), b["qtd_parcelas_em_atraso_12m"].nunique(), b["qtd_parcelas_em_atraso_12m"].max())
+# 3000 1 0
+# 5000 1 0
+```
 
 **Próximo capítulo:** [02 — Exploração](02-exploracao.md), onde essas 18 candidatas são medidas uma a
 uma; depois, [03 — Features](03-features.md), onde as 17 aprovadas viram um `Pipeline` que só

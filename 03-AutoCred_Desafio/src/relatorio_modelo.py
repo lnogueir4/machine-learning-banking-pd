@@ -168,6 +168,25 @@ def auroc_da_proibida(d: dict) -> float:
     return float(roc_auc_score(a[ALVO], a["qtd_parcelas_em_atraso_12m"]))
 
 
+def proibida_zerada(d: dict) -> dict[str, dict[str, int]]:
+    """`qtd_parcelas_em_atraso_12m` nas bases de aplicacao: constante zero.
+
+    O argumento contra usa-la nao para em "e pos-concessao". Em B e C a coluna
+    chega com um unico valor -- zero, o de quem ainda nao venceu parcela --,
+    de modo que um modelo que dependesse dela na Base A receberia so zeros na
+    hora de pontuar. Contado aqui das proprias bases, nunca digitado.
+    """
+    fora = {}
+    for k in ("b", "c"):
+        s = d[k]["qtd_parcelas_em_atraso_12m"]
+        fora[k] = {
+            "linhas": int(len(s)),
+            "distintos": int(s.nunique(dropna=False)),
+            "maximo": int(s.max()),
+        }
+    return fora
+
+
 def dominio(d: dict) -> tuple[pd.DataFrame, float]:
     """Onde a Base C sai do intervalo observado em toda a Base A.
 
@@ -530,6 +549,8 @@ def tab_bases_pd(d: dict) -> list[list[str]]:
 def escrever(d: dict) -> str:
     m, sc, sb, ft = d["modelo"], d["score"], d["sub"], d["feat"]
     dom, fora_regra = dominio(d)
+    _zerada = proibida_zerada(d)
+    zb, zc = _zerada["b"], _zerada["c"]
     a = d["a"]
     cmp_ = d["cmp"]
     venc = cmp_.loc[cmp_["modelo"] == m["vencedor"]].iloc[0]
@@ -646,8 +667,12 @@ def escrever(d: dict) -> str:
         "",
         f"O tamanho da tentação, medido: `qtd_parcelas_em_atraso_12m` sozinha, como variável única, "
         f"dá AuROC de **{num(auroc_da_proibida(d), 4)}** na Base A. Ela parece informação de bureau, "
-        "está presente nas três bases, e é a armadilha mais cara do desafio — qualquer modelo que a "
-        "use vence qualquer modelo honesto, e não vale nada.",
+        "está presente nas três bases — mas em B e C vem **constante zero**: máximo "
+        f"{zb['maximo']}, {zb['distintos']} valor distinto nas {inteiro(zb['linhas'])} linhas de "
+        f"B e nas {inteiro(zc['linhas'])} de C, que é o valor de uma proposta que ainda não "
+        "pagou nada. Um modelo que a usasse aprenderia a depender dela na Base A e receberia "
+        "zeros na submissão. É a armadilha mais cara do desafio — qualquer modelo que a use "
+        "vence qualquer modelo honesto, e não vale nada.",
         "",
         "### As nove colunas que a Base C não tem",
         "",
