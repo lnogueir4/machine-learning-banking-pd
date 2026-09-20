@@ -5,6 +5,22 @@ a decisão, a pendência. Detalhe técnico duradouro vai para o `CLAUDE.md`.
 
 ---
 
+## 2026-09-20 (meio-dia) — README da raiz criado; `docs/README.md` auditado
+
+- **Novo:** `README.md` na raiz — porta de entrada do repositório (problema, entregáveis,
+  resultado com guardrails, três decisões que definem o projeto, onde ler o quê). 16 links
+  conferidos, nenhum quebrado.
+- **Corrigido em `docs/README.md`:** o bloco de reprodução rodava `src/modelo.py` sem `--poda`,
+  e sem ele `validacao_encadeada.csv` não existe — clone limpo quebrava com `FileNotFoundError`
+  no relatório do modelo. Faltavam também `notebooks/02-decisoes-features.py` e
+  `gerar_notebook.py`, e a nota atribuía `importancias.csv` ao `--poda` (sai de qualquer run).
+- **Corrigido em `CLAUDE.md`:** dizia que o repositório é "de dados e documentos, sem código" e
+  que "não há git" — falso desde o primeiro commit. Atualizados também a estrutura de pastas (era
+  "ainda não existe"), a lista de dependências com versões e a dependência de ordem do `--poda`.
+- Commitado e enviado para `origin/main`.
+
+---
+
 ## 2026-09-20 (manhã) — relatório do modelo pronto: **os dois entregáveis escritos estão fechados**
 
 **Construído**

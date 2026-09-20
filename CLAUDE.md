@@ -7,9 +7,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Material de uma mentoria de **Banking Analytics / risco de crédito** (Analítica Educação - Programa Jump) e o
 espaço de trabalho do **Desafio AutoCred**, uma competição de modelagem + política de crédito.
 
-Hoje é um repositório **de dados e documentos, sem código** — não há `git`, pacote Python, testes ou build.
-O trabalho de modelagem ainda será escrito aqui. Documentação, relatórios e o documento de política são
-entregáveis em **português**; escreva nessa língua salvo pedido em contrário.
+Começou como repositório de dados e documentos. Hoje carrega a **solução completa do desafio** — pipeline
+em `03-AutoCred_Desafio/src/`, oito capítulos de documentação, os dois entregáveis — versionada em `git`.
+Não há pacote Python, suíte de testes nem build: a verificação mora dentro dos próprios scripts, em
+conferências que falham alto (30 + 13 + 21 nas três etapas que produzem entregável). Documentação,
+relatórios e o documento de política são entregáveis em **português**; escreva nessa língua salvo pedido
+em contrário.
 
 ## Organização
 
@@ -22,7 +25,10 @@ Ao adicionar um PDF novo, siga essa convenção.
   Base didática em `01-base_de_dados_credito*.xlsx` (aba `Base_Final`; `_analises` traz as planilhas de IV/WoE feitas em aula).
 - `02-*` — Mentoria 13 (22/08/2026), validação/métricas/deploy. `02-Prompt_usado_no_Claude_Code.txt` é o prompt
   que gerou o projeto de referência (FastAPI + Render, modelo serializado) em `github.com/euvinicius/modelo_credito`.
-- `03-AutoCred_Desafio/` — **o trabalho ativo**. Enunciado, bases e templates de submissão.
+- `03-AutoCred_Desafio/` — **o trabalho ativo**. Enunciado, bases, o pipeline inteiro, a documentação
+  didática e as duas submissões.
+- `README.md` na raiz — porta de entrada do repositório, escrita para quem nunca viu o projeto.
+  O material das mentorias (`01-*`, `02-*`, `03-Mentoria_*`) está no `.gitignore`: quem clona não o recebe.
 
 ## Desafio AutoCred — o que realmente importa
 
@@ -116,8 +122,13 @@ A tabela de faixas na documentação precisa **bater** com a submissão linha a 
 
 ## Ambiente
 
-Python 3.12.3 via pyenv-win, global, com `pandas`, `pyarrow`, `openpyxl` já instalados — não há venv nem
-`requirements.txt` no projeto. Se criar código de modelagem, fixe um seed e registre-o.
+Python 3.12.3 via pyenv-win, global — não há venv nem `requirements.txt`. O que o projeto importa de
+fato, nas versões com que os artefatos foram gerados: `pandas` 2.2.3, `numpy` 2.2.1, `scikit-learn` 1.6.0,
+`joblib` 1.4.2, `matplotlib` 3.11.2, `nbformat` 5.10.4 + `nbclient` 0.10.2 (geração dos notebooks),
+`python-docx` (documento de política) e `openpyxl` 3.1.5 (os `.xlsx` de bases e parâmetros).
+
+Seed **42** em todo o projeto. Toda execução que produz artefato grava data, seed e versões num JSON em
+`artefatos/` — se criar etapa nova, siga essa convenção.
 
 Cuidados no shell (Windows, stdout cp1252):
 
@@ -164,28 +175,36 @@ Datas de entrada em `memory.md` e `aprendizado.md` saem dessa mesma fonte.
 
 ## Estrutura de pastas do desafio
 
-Ainda não existe — esta é a estrutura a criar quando o código começar. Proposta, ajustável:
+Construída. É esta:
 
 ```
 03-AutoCred_Desafio/
 ├── bases/          # entrada, SOMENTE LEITURA — nunca sobrescreva nem edite in-place
 ├── entregaveis/    # templates + as duas submissões finais
-├── notebooks/      # exploração e diagnóstico; nada que gere entregável
+├── notebooks/      # scripts de decisão (01, 02, 03) e os dois .ipynb, gerados por script
 ├── src/
-│   ├── dados.py    # carga, tipagem, validação de schema, checagem de vazamento
-│   ├── features.py # Pipeline de pré-processamento (fit exclusivamente no treino)
-│   ├── modelo.py   # treino, validação temporal, comparação e seleção
-│   ├── score.py    # PD contínua → faixas 1-10, com teste de monotonicidade
-│   ├── risco.py    # lookup EAD/LGD, ajuste de avalista, perda esperada
-│   └── politica.py # alavancas, guardrails, simulação de aceite e ROI
-├── artefatos/      # modelo serializado, tabela de faixas, metadados do run (seed, data, versões)
-├── docs/           # documentação didática da construção — um capítulo por módulo do src/
+│   ├── dados.py             # carga, tipagem, validação de schema, checagem de vazamento
+│   ├── exploracao.py        # biblioteca: binning, WoE, IV, monotonicidade, PSI
+│   ├── features.py          # Pipeline de pré-processamento (fit exclusivamente no treino)
+│   ├── modelo.py            # treino, validação temporal, comparação e seleção
+│   ├── score.py             # PD contínua → faixas 1-10, com teste de monotonicidade
+│   ├── risco.py             # lookup EAD/LGD, ajuste de avalista, perda esperada
+│   ├── politica.py          # alavancas, guardrails, simulação de aceite e ROI
+│   ├── submissoes.py        # os dois CSVs + 30 conferências
+│   ├── relatorios.py        # documento de política (.md e .docx) + 13 conferências
+│   └── relatorio_modelo.py  # relatório do modelo + 21 conferências
+├── artefatos/      # modelo serializado, tabelas e um JSON por execução (seed, data, versões)
+├── docs/           # documentação didática da construção — um capítulo por etapa do pipeline
 └── reports/        # relatório do modelo e documento de política
 ```
 
 Regras que essa estrutura existe para sustentar (valem 10 pts de qualidade técnica):
-as duas submissões são **geradas por script**, nunca editadas à mão; todo run grava seed e versões em
-`artefatos/`; nada em `bases/` é modificado.
+as duas submissões **e os dois documentos de `reports/`** são gerados por script, nunca editados à mão;
+todo run grava seed e versões em `artefatos/`; nada em `bases/` é modificado.
+
+Uma dependência de ordem que não é óbvia: `modelo.py` só grava `artefatos/validacao_encadeada.csv` quando
+roda com `--poda`, e `relatorio_modelo.py` lê esse arquivo sem alternativa. A cadeia completa, na ordem
+certa, está em `03-AutoCred_Desafio/docs/README.md`.
 
 ## Memória de sessões — `memory.md`
 

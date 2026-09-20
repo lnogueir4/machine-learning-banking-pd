@@ -46,7 +46,7 @@ Dados → PD → Score 1-10 → EAD/LGD → Perda esperada → Política → Ace
 | Capítulo | Código | Assunto |
 |---|---|---|
 | [01 — Dados](01-dados.md) | `src/dados.py` | as três bases, schema, vazamento e viés de aprovados |
-| [02 — Exploração](02-exploracao.md) | `notebooks/01-exploracao.py` | WoE/IV, faltantes, monotonicidade e PSI |
+| [02 — Exploração](02-exploracao.md) | `src/exploracao.py` · `notebooks/01-exploracao.py` | WoE/IV, faltantes, monotonicidade e PSI |
 | [03 — Features](03-features.md) | `src/features.py` | imputação, encoding, o pipeline sem vazamento e a parcela reconstruída |
 | [04 — Modelo](04-modelo.md) | `src/modelo.py` | candidatos, validação out-of-time, calibração, escolha do vencedor |
 | [05 — Score](05-score.md) | `src/score.py` | PD contínua → faixas 1-10, monotonicidade e estabilidade |
@@ -74,23 +74,27 @@ pacotes estão no Python global instalado via pyenv-win.
 
 ```bash
 cd 03-AutoCred_Desafio
-PYTHONIOENCODING=utf-8 python src/dados.py             # auditoria das bases
-PYTHONIOENCODING=utf-8 python notebooks/01-exploracao.py   # WoE/IV, monotonicidade, PSI
-PYTHONIOENCODING=utf-8 python src/features.py           # matriz e pré-processadores
-PYTHONIOENCODING=utf-8 python src/modelo.py             # comparação, calibração e modelo final
-PYTHONIOENCODING=utf-8 python notebooks/03-decisoes-score.py  # as cinco estratégias de corte
-PYTHONIOENCODING=utf-8 python src/score.py              # tabela de faixas 1-10 e testes
-PYTHONIOENCODING=utf-8 python src/risco.py              # EAD, LGD, perda esperada e a cadeia
-PYTHONIOENCODING=utf-8 python src/politica.py           # alavancas, guardrails, aceite e ROI
-PYTHONIOENCODING=utf-8 python src/submissoes.py         # os dois CSVs de entrega e 30 conferências
-PYTHONIOENCODING=utf-8 python src/relatorios.py         # documento de política (.md e .docx) e 13 conferências
-PYTHONIOENCODING=utf-8 python src/relatorio_modelo.py   # relatório do modelo e 21 conferências
+PYTHONIOENCODING=utf-8 python src/dados.py                       # auditoria das bases
+PYTHONIOENCODING=utf-8 python notebooks/01-exploracao.py         # WoE/IV, monotonicidade, PSI
+PYTHONIOENCODING=utf-8 python notebooks/02-decisoes-features.py  # as quatro decisões de pré-processamento
+PYTHONIOENCODING=utf-8 python src/features.py                    # matriz e pré-processadores
+PYTHONIOENCODING=utf-8 python src/modelo.py --poda               # comparação, calibração, modelo final e o julgamento da poda
+PYTHONIOENCODING=utf-8 python notebooks/03-decisoes-score.py     # as cinco estratégias de corte
+PYTHONIOENCODING=utf-8 python src/score.py                       # tabela de faixas 1-10 e testes
+PYTHONIOENCODING=utf-8 python src/risco.py                       # EAD, LGD, perda esperada e a cadeia
+PYTHONIOENCODING=utf-8 python src/politica.py                    # alavancas, guardrails, aceite e ROI
+PYTHONIOENCODING=utf-8 python src/submissoes.py                  # os dois CSVs de entrega e 30 conferências
+PYTHONIOENCODING=utf-8 python src/relatorios.py                  # documento de política (.md e .docx) e 13 conferências
+PYTHONIOENCODING=utf-8 python src/relatorio_modelo.py            # relatório do modelo e 21 conferências
+PYTHONIOENCODING=utf-8 python notebooks/gerar_notebook.py            # as figuras do cap. 02
 PYTHONIOENCODING=utf-8 python notebooks/gerar_notebook_modelagem.py  # as figuras dos cap. 04-05
 ```
 
-`src/modelo.py --poda` grava `artefatos/importancias.csv` e `artefatos/validacao_encadeada.csv`,
-que o relatório do modelo lê. Sem essa execução o relatório não é gerado: as duas tabelas
-sustentam a decisão de **não** podar variáveis, e ela não pode ser publicada de memória.
+O `--poda` na linha do modelo **não é opcional**. Sem ele o arquivo
+`artefatos/validacao_encadeada.csv` não é gravado e `src/relatorio_modelo.py` para com
+`FileNotFoundError` — é a tabela que julga a poda em janelas anteriores a 2024 e sustenta a
+decisão de **não** podar variáveis, que o relatório publica e não pode citar de memória.
+(`artefatos/importancias.csv`, a outra metade dessa evidência, sai de qualquer execução do módulo.)
 
 `PYTHONIOENCODING=utf-8` é necessário no Windows: o console usa cp1252 e os acentos saem corrompidos
 sem isso.
