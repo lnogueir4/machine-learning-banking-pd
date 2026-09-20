@@ -51,7 +51,7 @@ def colunas_proibidas() -> list[str]:
     return dic.loc[marca == "NÃO", "Coluna"].tolist()
 ```
 
-E a validação falha alto, antes de qualquer `fit`:
+E a validação falha, antes de qualquer `fit`:
 
 ```python
 class VazamentoDetectado(Exception):

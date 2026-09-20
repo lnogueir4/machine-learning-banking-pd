@@ -6,7 +6,7 @@ inadimplência e a política de concessão construída em cima dele.
 
 Nada aqui foi editado à mão. As duas submissões, os dois documentos de entrega e todas as
 tabelas citadas na documentação saem de scripts em [`src/`](03-AutoCred_Desafio/src/), com
-seed fixa e **64 conferências automáticas** que falham alto se um número deixar de bater.
+seed fixa e **64 conferências automáticas** que falham ;;alto;; se um número deixar de bater.
 
 ## O problema
 

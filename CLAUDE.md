@@ -10,7 +10,7 @@ espaço de trabalho do **Desafio AutoCred**, uma competição de modelagem + pol
 Começou como repositório de dados e documentos. Hoje carrega a **solução completa do desafio** — pipeline
 em `03-AutoCred_Desafio/src/`, oito capítulos de documentação, os dois entregáveis — versionada em `git`.
 Não há pacote Python, suíte de testes nem build: a verificação mora dentro dos próprios scripts, em
-conferências que falham alto (30 + 13 + 21 nas três etapas que produzem entregável). Documentação,
+conferências que falham (30 + 13 + 21 nas três etapas que produzem entregável). Documentação,
 relatórios e o documento de política são entregáveis em **português**; escreva nessa língua salvo pedido
 em contrário.
 
