@@ -5,6 +5,73 @@ a decisão, a pendência. Detalhe técnico duradouro vai para o `CLAUDE.md`.
 
 ---
 
+## 2026-09-20 (manhã) — relatório do modelo pronto: **os dois entregáveis escritos estão fechados**
+
+**Construído**
+- `src/relatorio_modelo.py` — gera `reports/relatorio_modelo.md` (~35 KB, 13 seções) para a banca
+  técnica, com 21 conferências. Markdown porque o desafio não deu template para este; o único
+  `.docx` fornecido é o do documento de política.
+- `modelo.py` passou a gravar `artefatos/importancias.csv` e `validacao_encadeada.csv` — as duas
+  tabelas que sustentam a decisão de não podar variáveis e que só existiam no stdout.
+- Rodei `modelo.py --poda`: `modelo_pd.joblib` e `modelo_comparacao.csv` saíram **byte a byte
+  idênticos**. O pipeline é determinístico de ponta a ponta.
+
+**Erro corrigido** — `docs/05-score.md`
+- A tabela de granularidade comparava 5/10/20 faixas, mas a linha de dez trazia a estratégia
+  **progressiva** (0,7297) entre duas linhas por quantil. Devolvida à família certa (0,7276), com
+  a progressiva num parágrafo próprio. Mesma doença no meu rascunho: a faixa de AuROC reportada
+  misturava calibrado (0,7226) com não calibrado (0,7410). Correta: **0,7226 a 0,7434**.
+- 1 entrada nova em `aprendizado.md` (25 no total).
+
+**Estado da entrega**
+- Submissões e `documento_politica.md` seguem byte a byte idênticos. 30 + 13 + 21 conferências,
+  0 falhas.
+- Continua faltando preencher à mão no `.docx`: **número do grupo** e os **três nomes** da seção 8.
+  O usuário disse que preenche depois.
+
+**Próximo passo**
+Nada obrigatório em aberto. O que resta é opcional e nesta ordem: (1) uma passada de revisão nos
+dois documentos com olhos de banca; (2) commit do que está solto. **5 dias** até 25/09/2026 23h59.
+
+---
+
+## 2026-09-19 (fim da noite) — `relatorios.py` + documento de política: **falta só o relatório do modelo**
+
+**Construído**
+- `src/relatorios.py` — gera `reports/documento_politica.md` e `.docx` preenchendo o template
+  oficial, com 13 conferências de coerência contra `submissao_politica.csv` lido do disco.
+  Nenhum número digitado. Refaz o teste de estresse (9 células) sobre a oferta publicada.
+- 2,7 páginas no template de 2 a 3. Tabelas a 9pt com larguras explícitas — a 11pt dava 4,2.
+- 1 entrada nova em `aprendizado.md` (24 no total).
+
+**Erro corrigido na origem** — `politica.py`
+- A coluna `prazo_medio` de `tabela_politica.csv` era média **simples**; o `roi` da mesma linha
+  usava a média **ponderada por volume e aceite**. Quem refizesse a conta pela linha errava até
+  **0,59 p.p. na faixa 5**, com viés crescente em direção às faixas piores. Corrigido para a
+  ponderada; virou checagem. Capítulo 07 atualizado (prazos 42/42/41/42/41/41) e a coluna de PD
+  daquela tabela passou a se chamar `PD precificada`, que é o que ela sempre foi.
+- Escrevi "faixas 1 a 4 = 30% da base" de cabeça; são **20%** na Base A e 47,2% na Base C. Agora
+  os dois saem do artefato.
+
+**Decisões do documento**
+- A coluna `Perda esperada` da tabela publicada é a das **condições pedidas** — a única régua que
+  compara faixa aprovada com faixa negada na mesma coluna.
+- O documento cita o canto duro em toda projeção (volume, inadimplência, ROI), e diz com todas as
+  letras que o ROI adverso de 14,8% fica abaixo dos 15% pedidos.
+
+**Pendências**
+- `reports/`: **relatório do modelo** (capítulos 01-05). É o que sobrou do desafio.
+- No `.docx`, faltam dois campos que o script não sabe: **número do grupo** e os **três nomes**
+  da seção 8. Marcados com `___`.
+- Fragilidade que sobrevive à entrega: PD 40% acima da prevista quebra a inadimplência nos
+  cenários central e pessimista (o otimista aguenta). Sem dado para medir o nível em mar aberto.
+
+**Próximo passo**
+Relatório do modelo em `reports/`, derivado dos capítulos 01-05, pelo mesmo `relatorios.py`.
+**5 dias** até 25/09/2026 23h59.
+
+---
+
 ## 2026-09-19 (noite) — `submissoes.py` + capítulo 08: **as duas entregas estão prontas**
 
 **Construído**

@@ -844,7 +844,13 @@ def relatar(regra: Regra, c: pd.DataFrame, quadro: pd.DataFrame) -> tuple[pd.Dat
                 "n": len(sub),
                 "decisao": sub["decisao"].iloc[0],
                 "taxa_am": float(sub["taxa_am"].iloc[0]),
-                "prazo_medio": float(np.average(sub["prazo_meses"])),
+                # Ponderado por volume e aceite, igual ao que alimenta o ROI
+                # logo abaixo. A media simples publicava um prazo que NAO
+                # reproduz o `roi` da propria linha: quem refizesse a conta
+                # (juros_pct - perda_pct) / (prazo_medio/12) errava por ate
+                # 0,59 p.p. na faixa 5, e o erro crescia em direcao as faixas
+                # piores, onde o prazo longo tem menos aceite.
+                "prazo_medio": prazo_v,
                 "entrada_minima": float(sub["pct_entrada_minima"].iloc[0]),
                 # Duas PDs, e a distinção precisa estar na tabela publicada.
                 # `pd_publicada` é a do enquadramento, nas condições que o

@@ -382,18 +382,24 @@ indefensável num comitê.
 
 ### A política
 
-| faixa | propostas | decisão | taxa a.m. | prazo | entrada mínima | PD | aceite | volume |
+| faixa | propostas | decisão | taxa a.m. | prazo | entrada mínima | PD precificada | aceite | volume |
 |---|---|---|---|---|---|---|---|---|
 | 10 | 629 | APROVAR | 2,27% | 42m | a do cliente | 3,1% | 76% | R$ 18,77 mi |
 | 9 | 456 | APROVAR | 2,36% | 42m | a do cliente | 4,1% | 74% | R$ 12,43 mi |
-| 8 | 436 | APROVAR | 2,47% | 42m | a do cliente | 4,9% | 72% | R$ 10,96 mi |
-| 7 | 380 | APROVAR | 2,56% | 43m | a do cliente | 6,0% | 70% | R$ 9,88 mi |
-| 6 | 421 | APROVAR | 2,65% | 42m | 21% | 6,9% | 66% | R$ 9,05 mi |
-| 5 | 320 | APROVAR | 2,82% | 43m | 21% | 8,8% | 62% | R$ 6,33 mi |
+| 8 | 436 | APROVAR | 2,47% | 41m | a do cliente | 4,9% | 72% | R$ 10,96 mi |
+| 7 | 380 | APROVAR | 2,56% | 42m | a do cliente | 6,0% | 70% | R$ 9,88 mi |
+| 6 | 421 | APROVAR | 2,65% | 41m | 21% | 6,9% | 66% | R$ 9,05 mi |
+| 5 | 320 | APROVAR | 2,82% | 41m | 21% | 8,8% | 62% | R$ 6,33 mi |
 | 4 | 364 | NEGAR | — | — | — | 11,7% | — | — |
 | 3 | 567 | NEGAR | — | — | — | 16,8% | — | — |
 | 2 | 714 | NEGAR | — | — | — | 24,0% | — | — |
 | 1 | 713 | NEGAR | — | — | — | 40,7% | — | — |
+
+Duas convenções desta tabela, ambas aprendidas por erro. A coluna de PD é a **precificada** —
+depois de a entrada exigida derrubar o LTV —, e não a que a submissão publica, que é a de
+enquadramento; a distinção está no [capítulo 08](08-submissoes.md). E o prazo é ponderado por
+volume e aceite, o mesmo que entra no ROI: a média simples publicava um prazo que **não
+reproduzia o ROI da própria linha**, com erro de até 0,59 p.p. na faixa 5.
 
 ### Os guardrails
 

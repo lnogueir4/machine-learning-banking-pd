@@ -54,9 +54,16 @@ Dados → PD → Score 1-10 → EAD/LGD → Perda esperada → Política → Ace
 | [07 — Política](07-politica.md) | `src/politica.py` | alavancas, guardrails, simulação de aceite e ROI |
 | [08 — Submissões](08-submissoes.md) | `src/submissoes.py` | geração e conferência dos dois CSVs |
 
-Os oito capítulos estão escritos. O que falta do desafio são os dois documentos de
-`reports/`, derivados deles: o relatório do modelo (capítulos 01-05) e o documento de
-política (capítulos 06-07).
+Os oito capítulos estão escritos, e os dois documentos de `reports/` saem deles — gerados por
+script a partir dos artefatos, nunca editados à mão, cada um com suas próprias conferências:
+
+| Documento | Sai de | Gerado por | Leitor |
+|---|---|---|---|
+| [`reports/documento_politica.docx`](../reports/documento_politica.docx) | capítulos 06-07 | `src/relatorios.py` | o conselho da AutoCred, em 2 a 3 páginas no template oficial |
+| [`reports/relatorio_modelo.md`](../reports/relatorio_modelo.md) | capítulos 01-05 | `src/relatorio_modelo.py` | a banca técnica, sem limite de tamanho |
+
+O relatório do modelo é markdown porque o desafio não entregou template para ele — o único
+`.docx` fornecido é o do documento de política.
 
 Dois notebooks acompanham os capítulos e carregam as figuras: [`notebooks/01-exploracao.ipynb`](../notebooks/01-exploracao.ipynb) para o capítulo 02 e [`notebooks/04-modelagem.ipynb`](../notebooks/04-modelagem.ipynb) para os capítulos 04 e 05. Os dois são **gerados por script** a partir das funções de `src/`, nunca editados à mão — notebook mantido em paralelo diverge do pipeline na primeira correção.
 
@@ -76,8 +83,14 @@ PYTHONIOENCODING=utf-8 python src/score.py              # tabela de faixas 1-10 
 PYTHONIOENCODING=utf-8 python src/risco.py              # EAD, LGD, perda esperada e a cadeia
 PYTHONIOENCODING=utf-8 python src/politica.py           # alavancas, guardrails, aceite e ROI
 PYTHONIOENCODING=utf-8 python src/submissoes.py         # os dois CSVs de entrega e 30 conferências
+PYTHONIOENCODING=utf-8 python src/relatorios.py         # documento de política (.md e .docx) e 13 conferências
+PYTHONIOENCODING=utf-8 python src/relatorio_modelo.py   # relatório do modelo e 21 conferências
 PYTHONIOENCODING=utf-8 python notebooks/gerar_notebook_modelagem.py  # as figuras dos cap. 04-05
 ```
+
+`src/modelo.py --poda` grava `artefatos/importancias.csv` e `artefatos/validacao_encadeada.csv`,
+que o relatório do modelo lê. Sem essa execução o relatório não é gerado: as duas tabelas
+sustentam a decisão de **não** podar variáveis, e ela não pode ser publicada de memória.
 
 `PYTHONIOENCODING=utf-8` é necessário no Windows: o console usa cp1252 e os acentos saem corrompidos
 sem isso.
@@ -88,7 +101,8 @@ biblioteca. A seed é **42** em todo o projeto.
 ## Regras que o código respeita
 
 1. `bases/` é somente leitura. Nada ali é modificado ou sobrescrito.
-2. As duas submissões são geradas por script, nunca editadas à mão.
+2. As duas submissões **e os dois documentos de `reports/`** são gerados por script, nunca
+   editados à mão.
 3. Imputação, encoding e seleção de variáveis são ajustados **apenas no treino**, dentro de um
    `Pipeline` do scikit-learn.
 4. Nenhuma coluna marcada como indisponível na concessão entra como preditora — e isso é verificado

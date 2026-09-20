@@ -1,0 +1,14 @@
+{
+  "executado_em": "2026-09-20T07:31:02-04:00",
+  "seed": 42,
+  "python": "3.12.3",
+  "pandas": "2.2.3",
+  "scikit_learn": "1.6.0",
+  "etapa": "src/relatorio_modelo",
+  "saida": "relatorio_modelo.md",
+  "auroc_reportado_min": 0.7226,
+  "auroc_reportado_max": 0.7434,
+  "fora_do_dominio_base_c": 0.4264,
+  "conferencias": 21,
+  "falhas": 0
+}

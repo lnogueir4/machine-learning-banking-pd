@@ -453,6 +453,8 @@ def main(refazer_busca: bool = False, podar: bool = False) -> None:
     print("\n--- Importância por permutação no out-of-time ---\n")
     imp = importancias(treino, oot)
     print(imp.round(4).to_string(index=False))
+    ARTEFATOS.mkdir(exist_ok=True)
+    imp.to_csv(ARTEFATOS / "importancias.csv", index=False, encoding="utf-8")
     print(
         "\n  Importância negativa não manda remover a variável: significa apenas que,\n"
         "  nesta janela, embaralhá-la ajudou. Quem decide poda é --poda, abaixo."
@@ -475,6 +477,11 @@ def main(refazer_busca: bool = False, podar: bool = False) -> None:
         }
         enc = validacao_encadeada(a, conjuntos)
         print(enc.round(4).to_string(index=False))
+        # O relatório do modelo cita esta tabela — é a evidência de que a poda
+        # que parecia boa no out-of-time de 2024 não se sustenta em janelas
+        # independentes. Fica no disco para o relatório não depender de quem
+        # copiou o terminal.
+        enc.to_csv(ARTEFATOS / "validacao_encadeada.csv", index=False, encoding="utf-8")
         print(
             "\n  Se a ordem aqui divergir da ordem no out-of-time de 2024, a vantagem em 2024\n"
             "  era coincidência de janela. Ver docs/04-modelo.md, decisão 5."

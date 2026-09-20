@@ -139,17 +139,24 @@ de 1.400, 1.600 e 2.000.
 
 ### Decisão 4 — dez faixas na tabela, mas a política decide sobre grupos de faixas
 
-Dez faixas é exigência do desafio, e o custo de agrupar foi medido:
+Dez faixas é exigência do desafio, e o custo de agrupar foi medido. A comparação de granularidade
+varia **só o número de faixas**, mantendo a estratégia de corte fixa em quantis — trocar as duas
+coisas ao mesmo tempo mediria a soma dos dois efeitos:
 
-| granularidade | AuROC | inversões | pares indistintos | menor faixa em C |
+| granularidade (quantis) | AuROC | inversões | pares indistintos | menor faixa em C |
 |---|---|---|---|---|
 | 5 faixas | 0,7154 | 1 | 1 de 4 | 568 |
-| **10 faixas** | **0,7297** | 1 | 7 de 9 | 320 |
+| 10 faixas | 0,7276 | 3 | 8 de 9 | 266 |
 | 20 faixas | 0,7311 | 9 | 17 de 19 | 131 |
 | PD contínua | 0,7326 | — | — | — |
 
-Agrupar em dez custa **0,0029 de AuROC** — 0,4% do poder de ordenação. É barato, e vale a pena pelo
-que se ganha em comunicabilidade.
+Ir de dez para vinte faixas devolve 0,0035 de AuROC e triplica as inversões — granularidade que o
+dado não sustenta. Descer para cinco custa 0,0122 e é o limite inferior do que o desafio aceita.
+
+A tabela que de fato vai para a política não é nenhuma dessas: é a **progressiva** da decisão 2,
+com dez faixas e cortes desiguais, que entrega **0,7297** — melhor que os decis de mesma
+granularidade e a **0,0029 da PD contínua**. Agrupar custa 0,4% do poder de ordenação, e vale a
+pena pelo que se ganha em comunicabilidade.
 
 Mas a coluna **"pares indistintos"** carrega o achado desconfortável do capítulo: são os pares de
 faixas vizinhas cujos intervalos de confiança de 95% da inadimplência observada se sobrepõem. Com

@@ -855,3 +855,92 @@ faixa sai) e nas condições ofertadas (depois de a entrada derrubar o LTV, que 
 cobre) — 7,47% contra 6,93% na faixa 6. A submissão publica a primeira, porque é a que reproduz a
 coluna `score_1a10` ao lado dela; a tabela publicada carrega as duas, com nome. Publicar só uma
 fazia documento e submissão divergirem sem que ninguém soubesse por quê.
+
+## 2026-09-19 (noite) — A linha que não reproduz o próprio número
+
+Conceitos: tabela publicada, média ponderada, ROI anualizado, convenção de medida, auditabilidade
+
+O documento que vai ao conselho tem uma tabela com uma linha por faixa de score: juros esperados,
+perda esperada, prazo médio e ROI. Ao escrever o gerador desse documento, refiz de propósito a
+conta da linha — `(juros − perda) / (prazo / 12)` — para conferir o ROI impresso ao lado. **Não
+batia.** Faixa 5: a linha dizia 16,7% e a conta dava 16,1%.
+
+Nenhum dos dois números estava errado. O que estava errado era a tabela publicar **duas
+convenções diferentes de prazo médio na mesma linha**:
+
+| | o que é | faixa 5 |
+|---|---|---|
+| coluna `prazo_medio` publicada | média simples dos prazos das 320 propostas | 42,9 meses |
+| prazo que alimentava o `roi` | média ponderada por volume **e por aceite** | 41,4 meses |
+
+O ROI usa a ponderada, e está certo: uma proposta que não fecha não entra na carteira, e uma de
+R$ 80 mil pesa o dobro de uma de R$ 40 mil. A média simples entrou na coluna publicada porque era
+a conta óbvia de escrever, não porque alguém a escolhesse.
+
+O erro tem **viés, e não é ruído**: cresce em direção às faixas piores.
+
+| faixa | erro de ROI ao refazer a conta pela linha |
+|---|---|
+| 10 | −0,005 p.p. |
+| 8 | −0,19 p.p. |
+| 6 | −0,53 p.p. |
+| 5 | **−0,59 p.p.** |
+
+A razão é mecânica e vale para qualquer carteira: nas faixas piores a taxa é maior, o aumento da
+parcela é maior, e o aceite dos prazos longos cai mais. A carteira efetivamente contratada fica
+mais curta que a carteira proposta — e quanto pior a faixa, maior a diferença. Na faixa 10 as duas
+médias quase coincidem (42,47 contra 42,49) porque quase todo mundo aceita.
+
+**O que fica:** a mesma grandeza medida com duas convenções vira duas colunas com nomes
+diferentes, ou vira uma só — nunca uma coluna com o nome de uma e o uso da outra. E o teste que
+pega isso é barato: **toda linha de tabela publicada tem de reproduzir os próprios números
+derivados a partir das próprias colunas**. Virou checagem no gerador, com erro máximo de 1e-4.
+
+É o irmão do erro das duas PDs da Base C, registrado na entrada anterior — o segundo em dois
+dias. O padrão é sempre o mesmo: um número calculado num lugar, publicado de outro, e ninguém
+comparando os dois. Diante do conselho, a pergunta "por que essa linha não fecha?" não tem
+resposta boa — nem quando os dois números estão certos.
+
+**Corolário prático:** nunca escreva de cabeça um número que um artefato já tem. Na mesma sessão,
+escrevi "as faixas 1 a 4 concentram 30% da base"; são **20%** na Base A — e 47,2% na Base C, que
+era o número interessante e que eu teria perdido. Frase de memória é frase não auditada.
+
+## 2026-09-20 — A comparação que troca duas coisas ao mesmo tempo
+
+Conceitos: tabela comparativa, variável de controle, família de medida, calibração, AuROC reportado
+
+O capítulo 05 publicava esta tabela para justificar o número de faixas de score:
+
+| granularidade | AuROC |
+|---|---|
+| 5 faixas | 0,7154 |
+| **10 faixas** | **0,7297** |
+| 20 faixas | 0,7311 |
+
+Ao escrever o relatório do modelo, que lê tudo de artefato, a linha do meio saiu **0,7276**. Não
+era erro de arredondamento. O script que gera a tabela usa cortes por quantil para as três
+granularidades; a linha de dez faixas havia sido substituída, na escrita do capítulo, pela
+estratégia **progressiva** — que é a escolhida, tem dez faixas e entrega 0,7297.
+
+Os dois números estão certos e medem coisas diferentes. O defeito é a tabela: ela promete variar
+**só o número de faixas** e varia também a estratégia de corte na linha do meio. Quem lê conclui
+que ir de 5 para 10 faixas ganha 0,0143 quando o ganho real, na mesma família, é 0,0122 — e quem
+roda o script encontra um número que a tabela não tem.
+
+**A regra: numa tabela comparativa, uma coluna varia e o resto é controle.** Se a linha vencedora
+pertence a outra família, ela sai da tabela e ganha um parágrafo próprio. Foi o que passou a
+acontecer: a comparação ficou com as três granularidades em quantis, e a progressiva escolhida
+aparece depois, nomeada, contra a PD contínua.
+
+**A mesma doença, duas horas depois, no meu próprio rascunho.** O relatório reportava a faixa de
+AuROC como "0,7226 a 0,7410". Os dois extremos vêm de famílias diferentes: 0,7226 é o modelo
+**calibrado** em janelas encadeadas, e 0,7410 é o vencedor **sem calibrar**, da tabela que compara
+os cinco candidatos (que é crua de propósito, para a disputa ser justa). O modelo entregue é
+calibrado, e calibrado ele mede **0,7434** no mesmo out-of-time. A faixa correta é 0,7226 a 0,7434
+— e a errada era mais estreita, o que a fazia parecer mais cuidadosa.
+
+Três sessões, três instâncias do mesmo mecanismo: duas PDs na Base C, duas convenções de prazo
+médio, e agora duas famílias de medida na mesma faixa. **Sempre que um número tem duas versões
+legítimas, o erro não é escolher a errada — é publicar as duas sob o mesmo rótulo.** A defesa
+barata é a checagem que o gerador agora faz: `calibrar sobe o AuROC out-of-time`, que falha se
+alguém voltar a misturar as famílias.

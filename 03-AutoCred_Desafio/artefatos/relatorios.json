@@ -1,0 +1,14 @@
+{
+  "executado_em": "2026-09-20T07:31:22-04:00",
+  "seed": 42,
+  "python": "3.12.3",
+  "pandas": "2.2.3",
+  "scikit_learn": "1.6.0",
+  "etapa": "src/relatorios",
+  "documento": "reports/documento_politica.docx",
+  "conferencias": 13,
+  "falhas": 0,
+  "regra": "corte>=5 alvo=15%+4% entrada<7/0 prazo<0:60m",
+  "roi_central": 0.15709200047670646,
+  "roi_canto_duro": 0.1484718243940102
+}
