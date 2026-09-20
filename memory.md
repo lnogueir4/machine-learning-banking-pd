@@ -14,9 +14,12 @@ a decisão, a pendência. Detalhe técnico duradouro vai para o `CLAUDE.md`.
   o capítulo ganhou o snippet que reproduz `3000 1 0` / `5000 1 0`. **Não** citei o AuROC 0,5888
   do `aprendizado.md`: nenhum script do repo o reproduz. 21/21 conferências ok.
 - Submissões e documento de política intactos byte a byte.
-- **Pendente:** o commit `af6a975` levou junto `reports/~$cumento_politica.docx`, arquivo de
-  bloqueio do Word (`git add -A` pega untracked, e `git diff --stat` não o mostra). Já apagado
-  do disco; falta a regra `~$*` no `.gitignore` e commitar a remoção.
+- `docs/07-politica.md` (decisão 5) agora avisa que o **canto duro** do código é o **cenário
+  adverso** do documento de política — mesmo conceito, dois nomes. O apelido fica no capítulo
+  porque é o que sai no `stdout` e nas chaves de `politica.json`; nada renomeado.
+- O commit `af6a975` levou junto `reports/~$cumento_politica.docx`, arquivo de bloqueio do
+  Word. **Resolvido em `2501cf9`:** removido e `~$*` no `.gitignore`. Lição: conferir com
+  `git status --untracked-files=all`, não com `git diff --stat`, que só vê rastreados.
 
 ---
 

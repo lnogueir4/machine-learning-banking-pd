@@ -187,7 +187,10 @@ provavelmente seria outra.
 Esta é a decisão que define o capítulo.
 
 O código testou 384 regras. Cada uma é avaliada no cenário central e no que o módulo chama de
-**canto duro**: aceite pessimista *e* PD 20% acima da prevista, ao mesmo tempo. Dessas 384:
+**canto duro**: aceite pessimista *e* PD 20% acima da prevista, ao mesmo tempo — é o mesmo que o
+documento de política chama de **cenário adverso**, o nome que um banco dá a um teste de estresse.
+Aqui fica o apelido do código, porque é ele que aparece no `stdout` e nas chaves de
+`artefatos/politica.json`. Dessas 384:
 
 - **22** cumprem os quatro guardrails no canto duro;
 - **10** ainda têm pelo menos 4% de folga em todos eles.
