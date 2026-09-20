@@ -24,7 +24,7 @@ Ela não foi escolhida por maximizar esse ROI, e sim por sobreviver ao cenário 
 | AuROC em treino / validação / teste out-of-time | 0,812 / 0,725 ± 0,020 / 0,741 |
 | KS no teste out-of-time | 0,376 |
 
-A Random Forest empatou em out-of-time (0,735), mas marcava 0,921 no treino — queda de 0,186 contra 0,071 do escolhido. Escolhemos o de menor queda, não o de maior AuROC: a distância entre treino e out-of-time é a única medida de quanto da performance é real. O mesmo algoritmo sem regularização faz 0,998 no treino e 0,710 fora dele.
+*Out-of-time* é o teste no futuro: o modelo aprende em 2022-2023 e é medido em 2024, uma safra que não existia quando ele foi treinado — é o que acontece em produção, e é o que uma amostra aleatória esconderia ao misturar 2024 no treino. A Random Forest empatou nesse teste (0,735), mas marcava 0,921 no treino — queda de 0,186 contra 0,071 do escolhido. Escolhemos o de menor queda, não o de maior AuROC: a distância entre treino e out-of-time é a única medida de quanto da performance é real. O mesmo algoritmo sem regularização faz 0,998 no treino e 0,710 fora dele.
 
 ## 3. Construção do score de 1 a 10
 
